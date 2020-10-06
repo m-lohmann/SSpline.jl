@@ -1,8 +1,7 @@
 module SSpline
 
     using LinearAlgebra
-    using GRUtils
-    
+     
     import Base: ==, +, -, *, /
     import Base: convert
     
@@ -13,4 +12,4 @@ module SSpline
     
     include("types.jl")
     include("ssplinefunctions.jl")
-end
+end #module

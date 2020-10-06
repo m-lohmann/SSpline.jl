@@ -7,52 +7,37 @@ using InteractiveUtils
 # ╔═╡ 9af1fa20-07fa-11eb-2d8d-239d4cc3f3ae
 using SSpline
 
+# ╔═╡ 2de193c2-080c-11eb-0451-5d5c46e11324
+using Colors
+
+# ╔═╡ 3103e260-080c-11eb-2272-d9eb1916ac7d
+names(Colors)
+
 # ╔═╡ b6bb03a0-07fa-11eb-2d68-156db7b1690c
-x=[1:10];y=[rand(10)]
+names(SSpline)
 
-# ╔═╡ 6e03fb00-0807-11eb-0011-175574601062
-begin
-	x
-	y
-end
-
-# ╔═╡ 7db661f0-0807-11eb-1409-b33946b61a12
+# ╔═╡ 26bca8a0-080c-11eb-33b2-7bf3e34cf10a
 
 
-# ╔═╡ d336bb50-07fa-11eb-3333-0d7b0c1961e1
+# ╔═╡ b89e59e0-080b-11eb-14b2-8fc62ace7cec
+cspl(x,y,0.1,"natural")
+
+# ╔═╡ c540c1b0-080b-11eb-3145-ef8010a69653
 cubicspline(x,y,"natural")
 
-# ╔═╡ 9d463770-0807-11eb-1d16-0f767de0b0c9
+# ╔═╡ fb0d41d0-0809-11eb-0619-699266a55ff8
+x,y
 
-
-# ╔═╡ 9e6aac80-0802-11eb-1eb9-dd92bd828018
-a
-
-# ╔═╡ a1278290-0802-11eb-248a-c5ae4bcaa4f3
-
-
-# ╔═╡ 42e80620-07fb-11eb-22d1-8df783b53c9f
-
-
-# ╔═╡ 15e4e440-07fb-11eb-09a1-71ac4df5739c
-
-
-# ╔═╡ f52e9020-07fa-11eb-30e8-2d7bf4a06be7
-
-
-# ╔═╡ ee485bae-07fa-11eb-3a1d-47ac3d4a00ca
-
+# ╔═╡ f1e310d0-0809-11eb-1496-978ea45d6da6
+cspl(x,y,0.1,"natural")
 
 # ╔═╡ Cell order:
 # ╠═9af1fa20-07fa-11eb-2d8d-239d4cc3f3ae
+# ╠═2de193c2-080c-11eb-0451-5d5c46e11324
+# ╠═3103e260-080c-11eb-2272-d9eb1916ac7d
 # ╠═b6bb03a0-07fa-11eb-2d68-156db7b1690c
-# ╠═6e03fb00-0807-11eb-0011-175574601062
-# ╠═7db661f0-0807-11eb-1409-b33946b61a12
-# ╠═d336bb50-07fa-11eb-3333-0d7b0c1961e1
-# ╠═9d463770-0807-11eb-1d16-0f767de0b0c9
-# ╠═9e6aac80-0802-11eb-1eb9-dd92bd828018
-# ╠═a1278290-0802-11eb-248a-c5ae4bcaa4f3
-# ╠═42e80620-07fb-11eb-22d1-8df783b53c9f
-# ╠═15e4e440-07fb-11eb-09a1-71ac4df5739c
-# ╠═f52e9020-07fa-11eb-30e8-2d7bf4a06be7
-# ╠═ee485bae-07fa-11eb-3a1d-47ac3d4a00ca
+# ╠═26bca8a0-080c-11eb-33b2-7bf3e34cf10a
+# ╠═b89e59e0-080b-11eb-14b2-8fc62ace7cec
+# ╠═c540c1b0-080b-11eb-3145-ef8010a69653
+# ╠═fb0d41d0-0809-11eb-0619-699266a55ff8
+# ╠═f1e310d0-0809-11eb-1496-978ea45d6da6
