@@ -10,8 +10,20 @@ using SSpline
 # ╔═╡ b6bb03a0-07fa-11eb-2d68-156db7b1690c
 x=[1:10];y=[rand(10)]
 
+# ╔═╡ 6e03fb00-0807-11eb-0011-175574601062
+begin
+	x
+	y
+end
+
+# ╔═╡ 7db661f0-0807-11eb-1409-b33946b61a12
+
+
 # ╔═╡ d336bb50-07fa-11eb-3333-0d7b0c1961e1
-naturalspline(x,y)
+cubicspline(x,y,"natural")
+
+# ╔═╡ 9d463770-0807-11eb-1d16-0f767de0b0c9
+
 
 # ╔═╡ 9e6aac80-0802-11eb-1eb9-dd92bd828018
 a
@@ -34,7 +46,10 @@ a
 # ╔═╡ Cell order:
 # ╠═9af1fa20-07fa-11eb-2d8d-239d4cc3f3ae
 # ╠═b6bb03a0-07fa-11eb-2d68-156db7b1690c
+# ╠═6e03fb00-0807-11eb-0011-175574601062
+# ╠═7db661f0-0807-11eb-1409-b33946b61a12
 # ╠═d336bb50-07fa-11eb-3333-0d7b0c1961e1
+# ╠═9d463770-0807-11eb-1d16-0f767de0b0c9
 # ╠═9e6aac80-0802-11eb-1eb9-dd92bd828018
 # ╠═a1278290-0802-11eb-248a-c5ae4bcaa4f3
 # ╠═42e80620-07fb-11eb-22d1-8df783b53c9f
