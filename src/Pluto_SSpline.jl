@@ -11,7 +11,7 @@ using SSpline
 x=[1:10];y=[rand(10)]
 
 # ╔═╡ d336bb50-07fa-11eb-3333-0d7b0c1961e1
-a=naturalspline(x,y)
+naturalspline(x,y)
 
 # ╔═╡ 9e6aac80-0802-11eb-1eb9-dd92bd828018
 a
