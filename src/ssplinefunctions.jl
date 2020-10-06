@@ -1,9 +1,33 @@
+"""
+`naturalspline(x::Vector,y::Vector)`
+
+Equivalent to `cubicspline(x::Vector,y::Vector,"natural")`.
+
+Returns `CubicSpline(a,b,c,d)` containing all spline coefficients for a natural spline.
+"""
 function naturalspline(x::Vector,y::Vector)
     cubicspline(x::Vector,y::Vector,"natural")
 end
+
+"""
+`clampedspline(x::Vector,y::Vector,ds,de)`
+
+Equivalent to `cubicspline(x::Vector,y::Vector,ds,de)`.
+
+Returns `CubicSpline(a,b,c,d)` containing all spline coefficients for a clamped spline.
+"""
 function clampedspline(x::Vector,y::Vector,ds,de)
     cubicspline(x::Vector,y::Vector,"clamped",ds,de)
 end
+
+"""
+`periodicspline(x::Vector,y::Vector)`
+
+Equivalent to `cubicspline(x::Vector,y::Vector,"periodic")`.
+`y` values of start and end points have to be equal.
+
+Returns `CubicSpline(a,b,c,d)` containing all spline coefficients for a periodic spline.
+"""
 function periodicspline(x::Vector,y::Vector)
     cubicspline(x::Vector,y::Vector,"periodic")
 end
@@ -32,7 +56,8 @@ style... settings for boundary conditions:
 
 `"clamped",ds,de`: defined 1st derivative of start (ds) and end points (de). Hermite spline.
 
-`"periodic"`: periodic boundary conditions, all conditions identical at start and end points.
+`"periodic"`: periodic boundary conditions. `y` values at start and end points have to be equal,
+conditions at start and end points are identical.
 
 
 Example:
@@ -78,7 +103,7 @@ function cubicspline(x::Vector,y::Vector,style...)
         c[i]= Δy[i]/Δx[i] - Δx[i]/6.0 * (2.0* M[i]+M[i+1])
         d[i]= y[i]
     end
-    result = CubicSpline(a,b,c,d)
+    CubicSpline(a,b,c,d)
 end
 const spline3 = cubicspline
 
@@ -87,6 +112,14 @@ function cspl(x,y,style...)
 
 end
 
+"""
+`cspl(x,y,dλ,style...)`
+
+Returns tuple of vectors of spline values `s` at locations `xs`,
+as defined by the grid points at `x+n*dλ` (smoothed curve).
+
+Returns: `xs, s`
+"""
 function cspl(x,y,dλ,style...)
     Spl=cubicspline(x,y,style...)
     xs=collect(x[1]:dλ:x[end])#,(x[end]-x[1])/dλ)  # spline x vector
@@ -108,6 +141,13 @@ function plotspline(x::Vector,y::Vector)
     plot(x,y)
 end
 
+"""
+`rbound(r,Δx,Δy,style...)`
+
+Returns vector `r` according to boundary conditions defined by `style...`
+
+Returns: `r`
+"""
 function rbound(r,Δx,Δy,style...)
     e=length(r)-1
     if style[1] == "natural"
@@ -125,6 +165,14 @@ function rbound(r,Δx,Δy,style...)
     return r
 end
 
+"""
+`bound(M,λ,μ,Δx,style...)`
+
+Returns tuple of vectors `M` (momenta), `λ` (upper diagonal), `μ` (lower diagonal)
+according to boundary conditions defined by `style...`.
+
+Returns: `M, λ, μ`
+"""
 function bound(M,λ,μ,Δx,style...)
     e=length(λ)-1
     if style[1] == "natural"
@@ -146,7 +194,9 @@ function bound(M,λ,μ,Δx,style...)
 end
 
 """
-1st derivative
+`slope(x,y,dλ,style...)`
+
+Returns the 1st derivative of the spline function.
 """
 function slope(x,y,dλ,style...)
     Spl=cubicspline(x,y,style...)
@@ -166,7 +216,9 @@ function slope(x,y,dλ,style...)
 end
 
 """
-2nd derivative
+`curvature(x,y,dλ,style...)`
+
+Returns the 2nd derivative of the spline function (s'')
 """
 function curvature(x,y,dλ,style...)
     Spl=cubicspline(x,y,style...)
@@ -186,7 +238,9 @@ function curvature(x,y,dλ,style...)
 end
 
 """
-3rd derivative
+`curvrate(x,y,dλ,style...`
+
+Returns the 3rd derivative of the spline function (s''').
 """
 function curverate(x,y,dλ,style...)
     Spl=cubicspline(x,y,style...)
