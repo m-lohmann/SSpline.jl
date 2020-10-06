@@ -13,7 +13,4 @@ module SSpline
     
     include("types.jl")
     include("ssplinefunctions.jl")
-    include("spectralfunctions.jl")
-    include("types.jl")
-    include("spectralops.jl")
 end
