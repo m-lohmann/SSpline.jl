@@ -1,14 +1,19 @@
 module SSpline
 
-    using LinearAlgebra
+    using LinearAlgebra#, OffsetArrays
      
     import Base: ==, +, -, *, /
     import Base: convert
     
-    export spline1, spline2, spline3,
-           linearspline, quadraticspline, cubicspline,
+    export linearspline, lspline, spline1,
+           quadraticspline, qspline, spline2,
+           cubicspline, cspline, spline3, cubicsplineip,
+           constrainedspline,
            naturalspline, clampedspline, periodicspline,
-           cspl, slope, curvature, curvrate
+           interp, interptest, extrap,
+           slope, deriv1,
+           curvature, deriv2,
+           curvrate, deriv3
     
     include("types.jl")
     include("ssplinefunctions.jl")
