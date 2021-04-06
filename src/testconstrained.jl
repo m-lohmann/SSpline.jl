@@ -1,5 +1,5 @@
 using SSpline
-export SSpline, clampedspline, constrainedspline, cspline, cubicspline, cubicsplineip, curvature, curvrate, deriv1, deriv2, deriv3, extrap, interp, interptest, linearspline, lspline, naturalspline, periodicspline, qspline, quadraticspline, slope, spline1, spline2, spline3
+export SSpline, clampedspline, constrainedspline, cspline, cubicspline, cubicsplineip, curvature, curvrate, deriv1, deriv2, deriv3, extrap, interp, interptest, linearspline, lspline, naturalspline, periodicspline, qspline, quadraticspline, slope, stepspline, nearestneighbor, spline0, spline1, spline2, spline3
 
 function testconstrained()
     x=[0,10,30,50,70,90,100];

@@ -1,5 +1,9 @@
 abstract type Spline end
 
+struct NearestNeighborSpline <: Spline
+    a::Vector{Float64}
+    x::Vector{Float64}
+end
 struct LinearSpline <: Spline
     a::Vector{Float64}
     b::Vector{Float64}
