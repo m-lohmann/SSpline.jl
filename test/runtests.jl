@@ -43,16 +43,16 @@ end
 
     # name tests, spline generation
 
-    @test lin1.a == [1.0, 4.0, -3.0, 0.0, 0.0]
-    @test lin1.b == [0.0,1.0,5.0,2.0,2.0]
+    @test lin1.b == [1.0, 4.0, -3.0, 0.0, 0.0]
+    @test lin1.a == [0.0,1.0,5.0,2.0,2.0]
     @test lin1.x == [0.0,1.0,2.0,3.0,4.0]
 
-    @test lin2.a == lin1.a
     @test lin2.b == lin1.b
+    @test lin2.a == lin1.a
     @test lin2.x == lin1.x
 
-    @test lin3.a == lin1.a
     @test lin3.b == lin1.b
+    @test lin3.a == lin1.a
     @test lin3.x == lin1.x
 end
 
@@ -69,10 +69,10 @@ end
 
 end
 
-#=@testset "Cubic Spline Type" begin
+@testset "Cubic Spline Type" begin
     x=[0,1,2,3,4]
     y=[0,1,5,2,2]
 
-    @test typeof(cubicspline(x,y))==CubicSpline
-end=#
+    @test typeof(cubicspline(x,y)) == CubicSpline
+end=
 
