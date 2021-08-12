@@ -118,36 +118,74 @@ function cubicspline(x::Vector, y::Vector, style...)
         end
     else
         n = length(x)
-        Δx= Vector{Float64}(undef, n-1)
-        Δy= Vector{Float64}(undef, n-1)
-        λ = Vector{Float64}(undef, n)    # upper diagonal    
+        #Δx= Vector{Float64}(undef, n-1)
+        Δx = zeros(Float64, n-1)
+        #Δy= Vector{Float64}(undef, n-1)
+        Δy = zeros(Float64, n-1)
+        #λ = Vector{Float64}(undef, n)    # upper diagonal
+        λ = zeros(Float64, n)
         δ = ones(n) * 2 # main diagonal
-        μ = Vector{Float64}(undef, n)    # lower diagonal
-        r = Vector{Float64}(undef, n)    # derivatives
-        M = Vector{Float64}(undef, n)
+        #μ = Vector{Float64}(undef, n)    # lower diagonal
+        μ = zeros(Float64, n)
+        #r = Vector{Float64}(undef, n)    # derivatives
+        r = zeros(Float64, n)
+        #M = Vector{Float64}(undef, n)
+        #M = zeros(Float64, n)
 
         @inbounds for i in 1:n-1
             Δx[i] = x[i+1] - x[i]
             Δy[i] = y[i+1] - y[i]
         end
-
-        @inbounds for i in 2:n
-            λ[i] = Δx[i] / (Δx[i-1] + Δx[i])
-            μ[i] = 1.0 - λ[i]
-            r[i] = (6.0 / (Δx[i-1] + Δx[i])) * (Δy[i] / Δx[i] - Δy[i-1] / Δx[i-1])
+        if style == :notaknot
+            A = zeros(n, n)
+            #=@inbounds=# for i in 2:n-1
+                A[i, i-1] = Δx[i-1]
+                A[i, i] = 2.0 * (Δx[i-1] + Δx[i])
+                A[i, i+1] = Δx[i+1]
+                r[i] = 6.0 * (Δy[i] / Δx[i] - Δy[i-1] / Δx[i-1])
+            end
+            #A[begin, begin] = -Δx[begin + 2]
+            #A[begin, begin + 1] = Δx[begin + 1] + Δx[begin + 2]
+            #A[begin, begin + 2] = -Δx[begin + 1]
+            A[1,1] = -(x[3] - x[2])
+            A[1,2] = x[3] - x[1]
+            A[1,3] = -(x[2] - x[1])
+            #A[end, end - 2] = -Δx[end - 1]
+            #A[end, end - 1] = Δx[end - 2] + Δx[end - 1]
+            #A[end, end]   = Δx[end - 2]
+            A[n-1, n-3] = -(x[n-1] - x[n-2])
+            A[n-1, n-2] = x[n-1] - x[n-3]
+            A[n-1, n-1] = -(x[n-2] - x[n-3])
+            #A[n-1, n-1] = -(x[n-3] - x[n-2])
+            #A[n-1, n-2] = x[n-3] - x[n-1]
+            #A[n-1, n-3] = -(x[n-2] - x[n-1])
+            #for i in 2:n-1
+            #    r[i] = 6.0 / (Δx[i-1] + Δx[i]) * (Δy[i] / Δx[i] - Δy[i-1] / Δx[i-1])
+            #    #r[i] = 6.0 * (Δy[i] / Δx[i] - Δy[i-1] / Δx[i-1])
+            #end
+        else
+            #=@inbounds=# for i in 2:n-1
+                λ[i] = Δx[i] / (Δx[i-1] + Δx[i])
+                μ[i] = 1.0 - λ[i]
+                r[i] = (6.0 / (Δx[i-1] + Δx[i])) * (Δy[i] / Δx[i] - Δy[i-1] / Δx[i-1])
+            end
         end
 
         e = length(Δx)
         r = rbound(r, e, Δx, Δy, style...)
-        λ, μ = λµbound(λ, μ, e, Δx, style...)
-        A = Tridiagonal(μ[2:n], δ, λ[1:n-1])
-        M = A \ r
-        M = Mbound(M,style...)
-        b = Vector{Float64}(undef, n-1)
-        c = Vector{Float64}(undef, n-1)
-        d = Vector{Float64}(undef, n-1)
+        if style ≠ :notaknot
+            λ, μ = λµbound(λ, μ, e, Δx, style...)
+            A = Tridiagonal(μ[2:n], δ, λ[1:n-1])
+            M = A \ r
+            M = Mbound(M,style...)
+        else
+            M = A \ r
+        end
+        b = zeros(Float64, n-1) # Vector{Float64}(undef, n-1)
+        c = zeros(Float64, n-1) # Vector{Float64}(undef, n-1)
+        d = zeros(Float64, n-1) # Vector{Float64}(undef, n-1)
 
-        @inbounds for i in 1:n-1
+        #=@inbounds=# for i in 1:n-1
             d[i] = (M[i+1] - M[i]) / (6 * Δx[i])
             c[i] = 0.5 * M[i] #
             b[i] = Δy[i] / Δx[i] - Δx[i] / 6.0 * (2.0 * M[i] + M[i+1])
@@ -159,6 +197,7 @@ function cubicspline(x::Vector, y::Vector, style...)
         return CubicSpline(d, c, b, y, x)
     end
 end
+
 
 const spline3 = cubicspline
 const cspline = cubicspline
@@ -173,17 +212,12 @@ Helper function for `cubicspline`.
 Returns: `r`
 """
 function rbound(r, e, Δx, Δy, style...)
-    if style[1] == :natural
+    if style[1] in (:natural, :notaknot)
         r[1]   = 0.0
         r[end] = 0.0
     elseif style[1] == :parabolic
         r[1] = r[2]
         r[end] = r[end-1]
-    #elseif style[1] in (:notaknot, :cubic)
-    #    #r[1] = 2 * r[2] - r[3]
-    #    r[1]   = 6.0 / (Δx[2] - Δx[1]) * ((Δy[2]-Δy[1]) / (Δx[2]-Δx[1]))
-    #    #r[end] = 2 * r[end-1] - r[end-2]
-    #    r[end] = -6.0 / (Δx[end-1] - Δx[end]) * ((Δy[end-1]-Δy[end]) / (Δx[end-1]-Δx[end]))
     elseif style[1] == :clamped
         ds     = style[2]
         de     = style[3]
@@ -212,9 +246,9 @@ function Mbound(M, style...)
     elseif style[1] == :parabolic
         M[1] = M[2]
         M[end] = M[end-1]
-    #elseif style[1] in (:cubic, :notaknot)
-    #    M[1] = 2 * M[2] - M[3]
-    #    M[end] = 2 * M[end-1] - M[end-2]
+    elseif style[1] == :notaknot
+        #M[1] = M[2]
+        #M[end] = M[end-1]
     end
     return M
 end
@@ -229,9 +263,6 @@ function λµbound(λ,μ,e,Δx,style...)
     elseif style[1] == :parabolic
         λ[1] = λ[2]
         μ[end] = λ[end-1]
-    #elseif style[1] in (:cubic, :notaknot)
-    #    λ[1] = 2 * λ[2] - λ[3]
-    #    μ[end] = 2 * λ[end-1] - λ[end-2]
     elseif style[1] == :periodic
         λ[end] = Δx[1] / (Δx[1] + Δx[e-1])
         μ[end] = 1 - Δx[1] / (Δx[1] + Δx[e])
@@ -378,3 +409,56 @@ const hspline = hermitespline
 #    end
 
     #CubicSpline(d, c, b, y, x)
+
+
+
+"""
+    nakspline(x::Vector, y::Vector)
+
+Creates not-a-knot spline.
+"""
+function nakspline(x::Vector, y::Vector)
+    n = length(x)
+    Δx = zeros(Float64, n)
+    Δy = zeros(Float64, n)
+    r = zeros(Float64, n-1)
+    for i in 1:n-1
+        Δx[i] = x[i+1] - x[i]
+        Δy[i] = y[i+1] - y[i]
+    end
+    A = zeros(n-1, n-1)
+
+    for i in 2:n-2
+        A[i,i-1] = Δx[i]
+        A[i,i]   = 2 * (Δx[i] + Δx[i+1])
+        A[i,i+1] = Δx[i+1]
+        r[i] = 3 * Δy[i+1] / Δx[i+1] - 3 * Δy[i] / Δx[i]
+    end
+
+    A[1,1] = Δx[2]
+    A[1,2] = -(Δx[1] + Δx[2])
+    A[1,3] = Δx[1]
+
+    A[n-1, n-3] = Δx[n-1]
+    A[n-1, n-2] = -(Δx[n-2] + Δx[n-1])
+    A[n-1, n-1] = Δx[n-2]
+
+    r[1] = r[2]
+    r[n-1] = r[n-2]
+
+    #return A,r
+
+    M = A \ r
+
+    b = zeros(Float64, n-1) # Vector{Float64}(undef, n-1)
+    c = zeros(Float64, n-1) # Vector{Float64}(undef, n-1)
+    d = zeros(Float64, n-1) # Vector{Float64}(undef, n-1)
+    for i in 1:n-2
+        #d[i] = (M[i+1] - M[i]) / (6 * Δx[i])
+        d[i] = (M[i+1] - M[i]) / (3 * Δx[i])
+        c[i] = 0.5 * M[i] #
+        #b[i] = Δy[i] / Δx[i] - Δx[i] / 6.0 * (2.0 * M[i] + M[i+1])
+        b[i] = Δy[i] / Δx[i] - (M[i+1] + 2 * M[i]) * Δx[i] / 3
+    end
+    return CubicSpline(d, c, b, y, x)
+end

@@ -11,6 +11,7 @@ module SSpline
             spline3, cubicspline, cspline, cub,
             naturalspline, clampedspline, periodicspline,
             hermitespline, hspline,
+            nakspline,
             interpolate, interp, extrapolate, extrap,
             deriv1, grad, slope,
             deriv2, curvature,

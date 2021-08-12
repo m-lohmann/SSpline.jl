@@ -4,18 +4,18 @@
 using Markdown
 using InteractiveUtils
 
+# ╔═╡ 1ff97a4d-92bf-4f4f-ab60-c5f311b6b2b4
+using Plots, SSpline
+
 # ╔═╡ 3a8ef900-d5d9-11eb-1e22-edc33d208d0e
-import Pkg; Pkg.add(path="c:/Users/4vektor/.julia/dev/SSpline")
+#import Pkg; Pkg.add(path="c:/Users/4vektor/.julia/dev/SSpline")
 
 # ╔═╡ 1e7150a7-40ce-44e7-a719-fa995c10ac86
 let
-   # import Pkg
-	Pkg.activate(".")
+    #import Pkg
+	#Pkg.activate(".")
     #Pkg.add("SSpline")
 end
-
-# ╔═╡ 1ff97a4d-92bf-4f4f-ab60-c5f311b6b2b4
-using Plots, SSpline
 
 # ╔═╡ fcc81fdb-a8c0-489c-b36e-4065a91dca6e
 pyplot()
@@ -157,39 +157,34 @@ ceq.a[end-1]
 
 # ╔═╡ 014045fc-e2b2-48cf-aeb6-0e71cbe18426
 begin
-	xx=[0,10,30,50,70,90,100];	yy=[30,130,150,150,170,220,320]
+	#xx=[0,10,30,50,70,90,100];	yy=[30,130,150,150,170,220,320]
 	#xx=[-30,-15, -10,-7, -5, 0, 5, 7, 10, 15, 30]; yy=[0, 20, 15, 20, 8, 8, 8, 20, 15, 20, 0];
 	#xx=[10,18,20,35,50,55,57,60]; yy=[0,20,20,20,22,18,30,12];
-	#xx=[10,18,20,35,50,55,57,60]; yy=[12,30,18,22,20,20,20,0];
-	#x2=[10,13,15,20,35,50,52,60]; y2=[0,20,20,20,22,18,30,12];
-	
-
+	xx=[10,18,20,35,50,55,57,60]; yy=[12,30,18,22,20,20,20,0];
+	x2=[10,18,20,35,50,55,57,60]; y2=[0,20,20,20,22,18,30,12];
 	cn = cspline(xx,yy,:natural)
 	cp = cspline(xx,yy,:parabolic)
 	cc = cspline(xx,yy,:notaknot)
-	cr = nakspline(xx,yy)
-	#natural
-	nx,ny = interp(cn, xx[1]:.1:xx[end])
+	
+	nx,ny = interp(cn, xx[1]:1:xx[end])
 	n1x,n1y = deriv1(cn, xx[1]:1:xx[end])
 	n2x,n2y = deriv2(cn, xx[1]:1:xx[end])
 	n3x,n3y = deriv3(cn, xx[1]:1:xx[end])
 	nkx,nky = deriv2(cn, xx)
-	#parabolic
-	px,py = interp(cp, xx[1]:.1:xx[end])
+	
+	px,py = interp(cp, xx[1]:1:xx[end])
 	p1x,p1y = deriv1(cp, xx[1]:1:xx[end])
 	p2x,p2y = deriv2(cp, xx[1]:1:xx[end])
 	p3x,p3y = deriv3(cp, xx[1]:1:xx[end])
 	pkx,pky = deriv2(cp, xx)
-	#notaknot
-	cx,cy = interp(cc, xx[1]:.1:xx[end])
+	
+	cx,cy = interp(cc, xx[1]:1:xx[end])
 	c1x,c1y = deriv1(cc, xx[1]:1:xx[end])
 	c2x,c2y = deriv2(cc, xx[1]:1:xx[end])
 	c3x,c3y = deriv3(cc, xx[1]:1:xx[end])
 	ckx,cky = deriv2(cc, xx)
 	
-	#rx,ry = interp(cr, x2[1]:0.1:x2[end])
-	
-	plot(size = (950,600), xlimits = (xx[1], xx[end]), legend = :outertopright, title = "extrapolations", fg_color_grid = :black, gridalpha =  0.5)
+	plot(size = (850,500), xlimits = (xx[1], xx[end]), legend = :outertopright, title = "extrapolations", fg_color_grid = :black, gridalpha =  0.5)
 	scatter!(xx, yy, label = "knots", color = :white, markersize = 10, markershape = :hexagon)
 	#plot!(e,f, color = :blue)
 	#plot!(hx,hy, color = :red, label = "natural")
@@ -198,21 +193,17 @@ begin
 	#plot!(n2x,10*n2y, color = :blue, style = :dashdot, label = "natural f''")
 	#plot!(n3x,10*n3y, color = :blue, style = :dot, label = "natural f'''")
 	#scatter!(nkx, nky, color = :blue)
-	#plot!(px,py, color = :red, style = :dash, label = "parabolic f")
+	plot!(px,py, color = :red, style = :dash, label = "parabolic f")
 	#plot!(p1x,10*p1y, color = :red, style = :solid, label = "parabolic f'")
 	#plot!(p2x,10*p2y, color = :red, style = :dashdot, label = "parabolic f''")
-	plot!(p3x,100*p3y, color = :red, style = :dot, label = "parabolic f'''")
+	#plot!(p3x,400*p3y, color = :red, style = :dot, label = "parabolic f'''")
 	#scatter!(pkx, pky, color = :red)
 	plot!(cx, cy,color = :orange, style = :dash, label = "notaknot f")
 	#plot!(c1x,10*c1y, color = :green, style = :solid, label = "notaknot f'")
-	#plot!(c2x,100*c2y, color = :orange, style = :dashdot, label = "notaknot f''")
-	plot!(c3x,100*c3y, color = :orange, style = :dot, label = "notaknot f'''")
+	#plot!(c2x,10*c2y, color = :orange, style = :dashdot, label = "notaknot f''")
+	#plot!(c3x,10*c3y, color = :orange, style = :dot, label = "notaknot f'''")
 	#scatter!(nkx, nky, color = :green)
-	#plot!(rx, ry,color = :green, style = :dash, label = "notaknot reverse")
 end
-
-# ╔═╡ b2889364-f087-434a-a137-9ca6dd85bb19
-
 
 # ╔═╡ 2ef87041-69f6-4e37-8a46-22e480a2b417
 begin
@@ -278,6 +269,5 @@ A
 # ╠═680e2580-f4bf-47d1-bca8-19086f017b04
 # ╠═d7189e79-63d5-46bd-bf8c-d37f5ed8d50c
 # ╠═014045fc-e2b2-48cf-aeb6-0e71cbe18426
-# ╠═b2889364-f087-434a-a137-9ca6dd85bb19
 # ╠═2ef87041-69f6-4e37-8a46-22e480a2b417
 # ╠═b4a2a3c5-7f10-4330-b7ad-adbb54addf01
