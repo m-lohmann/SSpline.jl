@@ -22,13 +22,14 @@ Linear spline interpolation.
 - aliases: `spline1`, `lspline`
 """
 function linearspline(x::Vector, y::Vector)
-    n = length(x)
-    b = Vector{Float64}(undef, n-1)
+    #n = length(x)
+    b = Vector{Float64}(undef, length(x))
 
-    @inbounds for i in 1:n-1
+    @inbounds for i in 1:length(x)-1
         b[i] = (y[i+1] - y[i]) / (x[i+1] - x[i])
     end
-
+    #yy = y[begin+1:end].-y[begin:end-1]
+    #xx = x[begin+1:end].-x[begin:end-1]
     LinearSpline(b, y, x)
 end
 

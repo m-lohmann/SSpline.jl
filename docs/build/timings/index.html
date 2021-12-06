@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Timings · SSpline Documentation</title><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">SSpline Documentation</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">SSpline.jl Documentation</a></li><li><a class="tocitem" href="../about/">Introduction</a></li><li><a class="tocitem" href="../construction/">Construction</a></li><li><a class="tocitem" href="../documentation/">SpectralVis.jl Documentation</a></li><li><a class="tocitem" href="../references/">References</a></li><li class="is-active"><a class="tocitem" href>Timings</a><ul class="internal"><li><a class="tocitem" href="#Linear-Splines"><span>Linear Splines</span></a></li><li><a class="tocitem" href="#Cubic-Comparison"><span>Cubic Comparison</span></a></li><li><a class="tocitem" href="#SSpline-Interpolation-timings"><span><code>SSpline</code> Interpolation timings</span></a></li><li><a class="tocitem" href="#Spline-creation-timings"><span>Spline creation timings</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Timings</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Timings</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/m-lohmann/SSpline.jl/blob/master/docs/src/timings.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Timings"><a class="docs-heading-anchor" href="#Timings">Timings</a><a id="Timings-1"></a><a class="docs-heading-anchor-permalink" href="#Timings" title="Permalink"></a></h1><p>Comparison of spline interpolation timings for <code>SSpline</code> and <code>Interpolations</code>.</p><h2 id="Linear-Splines"><a class="docs-heading-anchor" href="#Linear-Splines">Linear Splines</a><a id="Linear-Splines-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Splines" title="Permalink"></a></h2><h3 id="SSpline-Linear"><a class="docs-heading-anchor" href="#SSpline-Linear">SSpline Linear</a><a id="SSpline-Linear-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Linear" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark interp($ls,1:0.01:10000)
+BechmarkTools.Trial: 603 samples with 1 evaluations.
+ Range (min … max):  5.702 ms … 24.966 ms  ┊ GC (min … max):  0.00% … 14.06%
+ Time  (median):     7.470 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   8.283 ms ±  1.927 ms  ┊ GC (mean ± σ):  14.26% ± 16.15%
+
+        █▅
+  ▃▄▃▃▂▄███▆▆▆▅▄▄▃▄▃▃▃▃▃▃▃▃▂▄▇▇▅▆▆▅▃▄▂▃▃▃▃▂▃▂▃▁▃▂▂▃▂▁▂▂▂▁▁▂▂ ▃
+  5.7 ms         Histogram: frequency by time        13.8 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h3 id="Interpolations-Linear"><a class="docs-heading-anchor" href="#Interpolations-Linear">Interpolations Linear</a><a id="Interpolations-Linear-1"></a><a class="docs-heading-anchor-permalink" href="#Interpolations-Linear" title="Permalink"></a></h3><pre><code class="language-julia"> julia&gt; @benchmark interp_linear(1:0.01:10000)
+BechmarkTools.Trial: 386 samples with 1 evaluations.
+ Range (min … max):   9.752 ms … 93.423 ms  ┊ GC (min … max): 0.00% … 87.16%
+ Time  (median):     11.614 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   12.933 ms ±  6.228 ms  ┊ GC (mean ± σ):  8.01% ± 10.91%
+
+   ▃█▅▅▃▃             ▁
+  ▅██████▇█▇▆▆▄▃▄▄▆▆▆▇█▇▆▅▄▃▂▃▄▄▃▁▂▃▂▄▃▁▂▁▂▁▃▁▁▁▂▃▂▃▁▁▁▂▁▁▁▁▂ ▃
+  9.75 ms         Histogram: frequency by time        22.4 ms &lt;
+
+ Memory estimate: 7.63 MiB, allocs estimate: 3.</code></pre><h2 id="Cubic-Comparison"><a class="docs-heading-anchor" href="#Cubic-Comparison">Cubic Comparison</a><a id="Cubic-Comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Cubic-Comparison" title="Permalink"></a></h2><h3 id="SSpline-Cubic"><a class="docs-heading-anchor" href="#SSpline-Cubic"><code>SSpline</code> Cubic</a><a id="SSpline-Cubic-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Cubic" title="Permalink"></a></h3><h4 id="Cubic-Natural-Int."><a class="docs-heading-anchor" href="#Cubic-Natural-Int.">Cubic Natural Int.</a><a id="Cubic-Natural-Int.-1"></a><a class="docs-heading-anchor-permalink" href="#Cubic-Natural-Int." title="Permalink"></a></h4><pre><code class="language-julia">julia&gt; @benchmark interp($cn,1:0.01:10000)
+BechmarkTools.Trial: 556 samples with 1 evaluations.
+ Range (min … max):  6.298 ms … 16.154 ms  ┊ GC (min … max):  0.00% … 30.59%
+ Time  (median):     8.216 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   8.979 ms ±  1.846 ms  ┊ GC (mean ± σ):  13.11% ± 15.03%
+
+         ▇█▂▅▄                    ▁
+  ▂▅▅▅▅▄▅█████▆█▆▇▇▄▅▅▄▃▃▃▃▃▄▄▃▅▇██▇▅▇▄▆▄▆▄▃▄▂▃▄▂▃▂▃▁▂▂▂▃▂▁▂ ▄
+  6.3 ms         Histogram: frequency by time        13.9 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h4 id="Cubic-Clamped-Int."><a class="docs-heading-anchor" href="#Cubic-Clamped-Int.">Cubic Clamped Int.</a><a id="Cubic-Clamped-Int.-1"></a><a class="docs-heading-anchor-permalink" href="#Cubic-Clamped-Int." title="Permalink"></a></h4><pre><code class="language-julia">julia&gt; @benchmark interp($cc,1:0.01:10000)
+BechmarkTools.Trial: 543 samples with 1 evaluations.
+ Range (min … max):  6.590 ms … 15.971 ms  ┊ GC (min … max):  0.00% … 29.67%
+ Time  (median):     8.352 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   9.185 ms ±  1.901 ms  ┊ GC (mean ± σ):  13.01% ± 15.01%
+
+      ▄▆█▄ ▃▂              ▁
+  ▅▄▃▃████▆██▅▄▆▆▄▃▃▃▃▃▃▁▅▇██▆▆▅▇▆▃▄▃▄▃▁▃▂▃▂▂▃▁▂▂▁▂▂▁▂▂▂▂▁▁▃ ▃
+  6.59 ms        Histogram: frequency by time        15.4 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h3 id="Interpolations.jl-Cubic-Interpolation"><a class="docs-heading-anchor" href="#Interpolations.jl-Cubic-Interpolation"><code>Interpolations.jl</code> Cubic Interpolation</a><a id="Interpolations.jl-Cubic-Interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#Interpolations.jl-Cubic-Interpolation" title="Permalink"></a></h3><pre><code class="language-julia"> julia&gt; @benchmark cubic_interpolation(1:0.01:10000)
+BechmarkTools.Trial: 217 samples with 1 evaluations.
+ Range (min … max):  17.319 ms … 119.705 ms  ┊ GC (min … max): 0.00% … 75.90%
+ Time  (median):     21.523 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   23.141 ms ±   9.066 ms  ┊ GC (mean ± σ):  6.09% ±  9.56%
+
+   ▇█▇
+  ▆█████▆▆▆▆▆▆█▆▆▅█▆▆▆▄▆▅▄▅▆▅▆▁▅▅▁▃▃▁▃▃▁▃▃▃▃▁▁▁▁▁▁▁▁▁▃▁▁▁▁▁▁▁▃ ▃
+  17.3 ms         Histogram: frequency by time         40.1 ms &lt;
+
+ Memory estimate: 7.63 MiB, allocs estimate: 3.</code></pre><h2 id="SSpline-Interpolation-timings"><a class="docs-heading-anchor" href="#SSpline-Interpolation-timings"><code>SSpline</code> Interpolation timings</a><a id="SSpline-Interpolation-timings-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Interpolation-timings" title="Permalink"></a></h2><h3 id="Nearest-Neighbor-Interpolation"><a class="docs-heading-anchor" href="#Nearest-Neighbor-Interpolation">Nearest Neighbor Interpolation</a><a id="Nearest-Neighbor-Interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#Nearest-Neighbor-Interpolation" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark interp($nn,1:0.01:10000)
+BechmarkTools.Trial: 617 samples with 1 evaluations.
+ Range (min … max):  5.733 ms … 13.798 ms  ┊ GC (min … max):  0.00% … 31.52%
+ Time  (median):     7.254 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   8.087 ms ±  1.706 ms  ┊ GC (mean ± σ):  14.29% ± 16.12%
+
+        █▅▂▂
+  ▅▄▃▃▃▂████▇▇▅▅▄▃▄▃▃▄▃▃▂▂▃▂▃▄▃▆▇▆▆▅▄▄▄▄▃▃▃▂▃▁▃▂▂▃▁▁▁▁▁▂▁▁▂▂ ▃
+  5.73 ms        Histogram: frequency by time        13.1 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h3 id="Linear-Interpolation"><a class="docs-heading-anchor" href="#Linear-Interpolation">Linear Interpolation</a><a id="Linear-Interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Interpolation" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark interp($ls,1:0.01:10000)
+BechmarkTools.Trial: 603 samples with 1 evaluations.
+ Range (min … max):  5.702 ms … 24.966 ms  ┊ GC (min … max):  0.00% … 14.06%
+ Time  (median):     7.470 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   8.283 ms ±  1.927 ms  ┊ GC (mean ± σ):  14.26% ± 16.15%
+
+        █▅
+  ▃▄▃▃▂▄███▆▆▆▅▄▄▃▄▃▃▃▃▃▃▃▃▂▄▇▇▅▆▆▅▃▄▂▃▃▃▃▂▃▂▃▁▃▂▂▃▂▁▂▂▂▁▁▂▂ ▃
+  5.7 ms         Histogram: frequency by time        13.8 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h3 id="Quadratic-Interpolation"><a class="docs-heading-anchor" href="#Quadratic-Interpolation">Quadratic Interpolation</a><a id="Quadratic-Interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#Quadratic-Interpolation" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark interp($qs,1:0.01:10000)
+BechmarkTools.Trial: 572 samples with 1 evaluations.
+ Range (min … max):  5.872 ms … 21.767 ms  ┊ GC (min … max):  0.00% … 29.79%
+ Time  (median):     7.915 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   8.720 ms ±  1.973 ms  ┊ GC (mean ± σ):  13.77% ± 15.57%
+
+         ▄█▆▁
+  ▂▃▄▄▄▄▄████▆▇▇█▆▅▅▄▃▃▄▃▃▄▃▃▄▄▆█▇▅█▅▆▃▄▄▄▃▄▃▂▃▃▃▃▃▃▁▂▄▂▃▁▂▂ ▃
+  5.87 ms        Histogram: frequency by time        13.8 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h3 id="Cubic-Natural-Interpolation"><a class="docs-heading-anchor" href="#Cubic-Natural-Interpolation">Cubic Natural Interpolation</a><a id="Cubic-Natural-Interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#Cubic-Natural-Interpolation" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark interp($cn,1:0.01:10000)
+BechmarkTools.Trial: 556 samples with 1 evaluations.
+ Range (min … max):  6.298 ms … 16.154 ms  ┊ GC (min … max):  0.00% … 30.59%
+ Time  (median):     8.216 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   8.979 ms ±  1.846 ms  ┊ GC (mean ± σ):  13.11% ± 15.03%
+
+         ▇█▂▅▄                    ▁
+  ▂▅▅▅▅▄▅█████▆█▆▇▇▄▅▅▄▃▃▃▃▃▄▄▃▅▇██▇▅▇▄▆▄▆▄▃▄▂▃▄▂▃▂▃▁▂▂▂▃▂▁▂ ▄
+  6.3 ms         Histogram: frequency by time        13.9 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h3 id="Cubic-Clamped-Interpolation"><a class="docs-heading-anchor" href="#Cubic-Clamped-Interpolation">Cubic Clamped Interpolation</a><a id="Cubic-Clamped-Interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#Cubic-Clamped-Interpolation" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark interp($cc,1:0.01:10000)
+BechmarkTools.Trial: 543 samples with 1 evaluations.
+ Range (min … max):  6.590 ms … 15.971 ms  ┊ GC (min … max):  0.00% … 29.67%
+ Time  (median):     8.352 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   9.185 ms ±  1.901 ms  ┊ GC (mean ± σ):  13.01% ± 15.01%
+
+      ▄▆█▄ ▃▂              ▁
+  ▅▄▃▃████▆██▅▄▆▆▄▃▃▃▃▃▃▁▅▇██▆▆▅▇▆▃▄▃▄▃▁▃▂▃▂▂▃▁▂▂▁▂▂▁▂▂▂▂▁▁▃ ▃
+  6.59 ms        Histogram: frequency by time        15.4 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h3 id="Hermite-Interpolation-(Kruger)"><a class="docs-heading-anchor" href="#Hermite-Interpolation-(Kruger)">Hermite Interpolation (Kruger)</a><a id="Hermite-Interpolation-(Kruger)-1"></a><a class="docs-heading-anchor-permalink" href="#Hermite-Interpolation-(Kruger)" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark interp($hs,1:0.01:10000)
+BechmarkTools.Trial: 452 samples with 1 evaluations.
+ Range (min … max):   8.340 ms … 20.404 ms  ┊ GC (min … max):  0.00% … 26.73%
+ Time  (median):     10.304 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   11.041 ms ±  1.992 ms  ┊ GC (mean ± σ):  10.72% ± 12.68%
+
+   ▁   ▁█▃▅▇▃▂                 ▄
+  ▆█▄▃▃███████▇▇▅▇▅▅▃▄▆▄▃▂▄▄▄▅▇█▆▆▅▇▅▃▅▅▅▄▄▄▃▃▃▁▃▃▁▃▃▃▁▂▄▁▁▁▂ ▄
+  8.34 ms         Histogram: frequency by time        16.5 ms &lt;
+
+ Memory estimate: 15.26 MiB, allocs estimate: 4.</code></pre><h2 id="Spline-creation-timings"><a class="docs-heading-anchor" href="#Spline-creation-timings">Spline creation timings</a><a id="Spline-creation-timings-1"></a><a class="docs-heading-anchor-permalink" href="#Spline-creation-timings" title="Permalink"></a></h2><h3 id="SSpline-Cubic-Spline-Natural"><a class="docs-heading-anchor" href="#SSpline-Cubic-Spline-Natural"><code>SSpline</code> Cubic Spline Natural</a><a id="SSpline-Cubic-Spline-Natural-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Cubic-Spline-Natural" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark  cs = cspline($collect(xs),$A,:natural)
+BechmarkTools.Trial: 9047 samples with 1 evaluations.
+ Range (min … max):  399.800 μs …   5.841 ms  ┊ GC (min … max): 0.00% … 84.61%
+ Time  (median):     463.100 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   546.430 μs ± 287.835 μs  ┊ GC (mean ± σ):  9.18% ± 13.78%
+
+  ▃▆█▆▅▄▃▃▃▂▂▁▁    ▁                                  ▁         ▂
+  ███████████████████▇▇▆▆▆▅▆▅▆▄▅▅▅▄▅▄▄▄▃▃▄▁▁▁▃▃▁▁▁▁▅████▇▇▇▆▅▆▆ █
+  400 μs        Histogram: log(frequency) by time       1.83 ms &lt;
+
+ Memory estimate: 1.68 MiB, allocs estimate: 55.</code></pre><h3 id="Interpolations.jl-Cubic-Spline"><a class="docs-heading-anchor" href="#Interpolations.jl-Cubic-Spline"><code>Interpolations.jl</code> Cubic Spline</a><a id="Interpolations.jl-Cubic-Spline-1"></a><a class="docs-heading-anchor-permalink" href="#Interpolations.jl-Cubic-Spline" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark CubicSplineInterpolation($xs,$A)
+BechmarkTools.Trial: 1999 samples with 1 evaluations.
+ Range (min … max):  2.136 ms …   6.510 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     2.293 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   2.490 ms ± 444.638 μs  ┊ GC (mean ± σ):  0.92% ± 4.29%
+
+   ▃▆█▆▅▄▄▂▂▂▂▁ ▁▁
+  ▅█████████████████████▇▇█▅▇███▇▇▇▇▆▆▅▆▆▆▆▇▃▅▅▃▅▆▄▄▅▄▄▅▆▃▄▄▄ █
+  2.14 ms      Histogram: log(frequency) by time      4.15 ms &lt;
+
+ Memory estimate: 1.06 MiB, allocs estimate: 124.</code></pre><h3 id="SSpline-Hermite-Spline-(Kruger)"><a class="docs-heading-anchor" href="#SSpline-Hermite-Spline-(Kruger)"><code>SSpline</code> Hermite Spline (Kruger)</a><a id="SSpline-Hermite-Spline-(Kruger)-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Hermite-Spline-(Kruger)" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark  hs = hspline(collect(xs),A,:kruger)
+BechmarkTools.Trial: 10000 samples with 1 evaluations.
+ Range (min … max):   67.000 μs …   5.022 ms  ┊ GC (min … max):  0.00% … 97.74%
+ Time  (median):      82.500 μs               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   100.612 μs ± 129.914 μs  ┊ GC (mean ± σ):  10.82% ±  8.51%
+
+  ▁▄▆█▇▆▅▄▃▂▂▁▁▁                                                ▂
+  ██████████████████▇▇██████▇▇▇▆▆▇▆▇▆▅▆▆▆▆▆▅▆▆▃▅▅▃▅▅▄▄▄▁▃▃▃▁▁▃▄ █
+  67 μs         Histogram: log(frequency) by time        303 μs &lt;
+
+ Memory estimate: 391.05 KiB, allocs estimate: 11.</code></pre><h3 id="SSpline-Quadratic-Spline"><a class="docs-heading-anchor" href="#SSpline-Quadratic-Spline"><code>SSpline</code> Quadratic Spline</a><a id="SSpline-Quadratic-Spline-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Quadratic-Spline" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark  qs = qspline(collect(xs),A)
+BechmarkTools.Trial: 10000 samples with 1 evaluations.
+ Range (min … max):   67.800 μs …   4.097 ms  ┊ GC (min … max):  0.00% … 97.38%
+ Time  (median):      88.400 μs               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   113.054 μs ± 148.473 μs  ┊ GC (mean ± σ):  13.46% ± 10.02%
+
+  ██▅▃▂▁▂▂                                                      ▂
+  █████████▇▇▇▇▆▅▄▅▃▄▄▄▃▃▃▁▁▁▄▁▁▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▇ █
+  67.8 μs       Histogram: log(frequency) by time       1.24 ms &lt;
+
+ Memory estimate: 547.47 KiB, allocs estimate: 15.</code></pre><h3 id="SSpline-Linear-Spline"><a class="docs-heading-anchor" href="#SSpline-Linear-Spline"><code>SSpline</code> Linear Spline</a><a id="SSpline-Linear-Spline-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Linear-Spline" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark  ls = lspline(collect(xs),A)
+BechmarkTools.Trial: 10000 samples with 1 evaluations.
+ Range (min … max):  31.600 μs …   3.660 ms  ┊ GC (min … max):  0.00% … 98.25%
+ Time  (median):     43.900 μs               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   57.529 μs ± 110.165 μs  ┊ GC (mean ± σ):  15.02% ±  7.82%
+
+  ▂▃▅▆▇█▆▅▅▄▄▃▃▂▁▁▁                 ▂▁                         ▂
+  █████████████████████▇▇▇▅▅▆▅▅▄▅▅▇███▇▇▅▆▆▅▆▆▅▆▅▆▅▄▄▄▄▅▃▄▄▅▁▄ █
+  31.6 μs       Histogram: log(frequency) by time       167 μs &lt;
+
+ Memory estimate: 312.84 KiB, allocs estimate: 9.</code></pre><h3 id="SSpline-Nearest-Neighbor-Spline"><a class="docs-heading-anchor" href="#SSpline-Nearest-Neighbor-Spline"><code>SSpline</code> Nearest Neighbor Spline</a><a id="SSpline-Nearest-Neighbor-Spline-1"></a><a class="docs-heading-anchor-permalink" href="#SSpline-Nearest-Neighbor-Spline" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; @benchmark  ns = nnspline(collect(xs),A)
+BechmarkTools.Trial: 10000 samples with 1 evaluations.
+ Range (min … max):  12.500 μs …  1.522 ms  ┊ GC (min … max):  0.00% … 96.75%
+ Time  (median):     18.000 μs              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   23.248 μs ± 70.624 μs  ┊ GC (mean ± σ):  17.53% ±  5.72%
+
+   ▂▃▄▅▆▇█▆▅▄▄▃▂▃▂▂▁▁▁                                        ▂
+  ▇█████████████████████▇█▇▇▆▆▇▆▆▅▅▆▅▃▅▅▆▃▅▄▃▃▃▄▅▁▁▃▄▄▄▃▃▃▃▄▅ █
+  12.5 μs      Histogram: log(frequency) by time      56.3 μs &lt;
+
+ Memory estimate: 156.44 KiB, allocs estimate: 5.</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../references/">« References</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.3 on <span class="colophon-date" title="Saturday 17 July 2021 00:32">Saturday 17 July 2021</span>. Using Julia version 1.6.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
